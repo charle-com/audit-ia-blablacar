@@ -131,6 +131,24 @@
   .lc h4{font-family:"Bricolage Grotesque";font-weight:600;font-size:1.05rem;color:var(--teal);}
   .lc p{font-size:.86rem;margin-top:4px;}
 
+  /* zoom irritant : chaine + bandeau solution */
+  .chain{display:flex;align-items:stretch;gap:8px;margin-top:30px;}
+  .chain .lk{flex:1;border:1px solid var(--line);border-radius:14px;padding:18px 16px;background:rgba(255,255,255,.03);display:flex;flex-direction:column;gap:8px;border-top:3px solid var(--teal);}
+  .chain .lk:nth-child(3){border-top-color:var(--azure);}
+  .chain .lk:nth-child(5){border-top-color:var(--violet);}
+  .chain .lk:nth-child(7){border-top-color:var(--green);}
+  .chain .lkt{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mut);}
+  .chain .lkv{font-size:.92rem;line-height:1.35;color:#dde7f5;}
+  .chain .arr{align-self:center;color:var(--mut);font-size:1.4rem;flex:0 0 auto;}
+  .solban{display:flex;align-items:center;gap:30px;margin-top:24px;border-radius:16px;padding:22px 26px;
+    background:linear-gradient(110deg,rgba(22,194,194,.16),rgba(40,213,154,.1));border:1px solid rgba(40,213,154,.32);}
+  .solban .sb-l{flex:1;font-size:1.05rem;color:#eaf1fb;}
+  .solban .sb-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--green);border:1px solid rgba(40,213,154,.4);border-radius:30px;padding:3px 11px;margin-right:10px;}
+  .solban .sb-r{text-align:right;flex:0 0 auto;}
+  .solban .sb-n{font-family:"Bricolage Grotesque";font-weight:800;font-size:2.6rem;line-height:1;color:var(--green);display:block;}
+  .solban .sb-k{font-size:.8rem;color:var(--mut);}
+  @media(max-width:760px){.chain{flex-direction:column;}.chain .arr{transform:rotate(90deg);}.solban{flex-direction:column;text-align:center;}.solban .sb-r{text-align:center;}}
+
   /* chrome */
   .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--azure),var(--violet));z-index:50;transition:width .4s ease;}
   .counter{position:fixed;bottom:26px;right:34px;font-size:.8rem;color:var(--mut);font-variant-numeric:tabular-nums;letter-spacing:.05em;z-index:50;}
@@ -218,6 +236,26 @@
       <div class="irow anim d4"><span class="idx">03</span><span class="itxt">Fraude et faux profils, arnaque médiatisée</span><span class="badge bc">confiance</span></div>
       <div class="irow anim d5"><span class="idx">04</span><span class="itxt">Annulations conducteurs de dernière minute</span><span class="badge be">efficacité</span></div>
       <div class="irow anim d6"><span class="idx">05</span><span class="itxt">Matching faible sur les trajets peu denses</span><span class="badge be">efficacité</span></div>
+    </div>
+  </section>
+
+  <!-- 5b ZOOM IRRITANT PRIORITAIRE -->
+  <section class="slide">
+    <div class="kicker anim d1">Zoom · l'irritant prioritaire</div>
+    <h2 class="anim d2">SAV saturé : le <span class="grad">point de fuite n°1</span></h2>
+    <p class="anim d3" style="max-width:74ch;">Impact maximal, faisabilité maximale, et il alimente les litiges de remboursement. C'est le seul irritant tout en haut à droite de la matrice. On l'attaque en premier.</p>
+    <div class="chain anim d4">
+      <div class="lk"><span class="lkt">Source web</span><span class="lkv">Avis Trustpilot récurrents, support jugé inexistant</span></div>
+      <span class="arr">→</span>
+      <div class="lk"><span class="lkt">Preuve observée</span><span class="lkv">Aucune ligne téléphonique, délais longs, note service basse</span></div>
+      <span class="arr">→</span>
+      <div class="lk"><span class="lkt">Hypothèse de donnée</span><span class="lkv">Tickets, transcriptions, base de connaissance, FAQ</span></div>
+      <span class="arr">→</span>
+      <div class="lk"><span class="lkt">KPI business</span><span class="lkv">Coût par ticket, délai de 1re réponse, satisfaction</span></div>
+    </div>
+    <div class="solban anim d5">
+      <div class="sb-l"><span class="sb-tag">Solution</span><strong>Assistant de support génératif</strong> en RAG sur la base de connaissance, escalade humaine sur les cas complexes.</div>
+      <div class="sb-r"><span class="sb-n">22%</span><span class="sb-k">de déflexion visée, cœur du ROI à +138%</span></div>
     </div>
   </section>
 
