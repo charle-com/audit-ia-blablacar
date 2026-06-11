@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlaBlaCar · Audit IA · Soutenance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0a1424;
+    --ink2:#0e1d33;
+    --paper:#f3efe7;
+    --teal:#16c2c2;
+    --azure:#3d9bff;
+    --coral:#ff6b5e;
+    --amber:#f5b945;
+    --violet:#9b7bff;
+    --green:#28d59a;
+    --mut:#8aa0bd;
+    --line:rgba(255,255,255,.10);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;background:#05101f;overflow:hidden;}
+  body{font-family:"Hanken Grotesk",sans-serif;color:#eaf1fb;-webkit-font-smoothing:antialiased;}
+
+  .deck{position:fixed;inset:0;}
+  .slide{
+    position:absolute;inset:0;display:none;flex-direction:column;justify-content:center;
+    padding:7vh 8vw;opacity:0;
+    background:
+      radial-gradient(1100px 600px at 88% -8%,rgba(22,194,194,.18),transparent 60%),
+      radial-gradient(900px 700px at -5% 110%,rgba(61,155,255,.16),transparent 55%),
+      linear-gradient(160deg,#0a1424 0%,#0c1c31 55%,#0a1a30 100%);
+  }
+  .slide::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");}
+  .slide.active{display:flex;opacity:1;animation:slidein .5s cubic-bezier(.2,.7,.2,1);}
+  @keyframes slidein{from{opacity:0;transform:translateY(14px) scale(.995);}to{opacity:1;transform:none;}}
+
+  .kicker{font-size:.78rem;font-weight:700;letter-spacing:.28em;text-transform:uppercase;color:var(--teal);margin-bottom:24px;display:flex;align-items:center;gap:12px;}
+  .kicker::before{content:"";width:34px;height:2px;background:linear-gradient(90deg,var(--teal),transparent);}
+  h1{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(2.6rem,6.5vw,5.4rem);line-height:.98;letter-spacing:-.025em;}
+  h2{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(1.9rem,3.8vw,3.1rem);line-height:1.02;letter-spacing:-.02em;margin-bottom:.5em;}
+  .grad{background:linear-gradient(105deg,var(--teal),var(--azure) 55%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  p{font-size:clamp(1rem,1.4vw,1.35rem);line-height:1.55;color:#cdd9ec;max-width:60ch;}
+  .lead{font-size:clamp(1.15rem,1.9vw,1.7rem);color:#dde7f5;max-width:48ch;}
+  strong{color:#fff;font-weight:700;}
+  .mut{color:var(--mut);}
+
+  .anim{opacity:0;transform:translateY(18px);}
+  .active .anim{animation:rise .6s cubic-bezier(.2,.7,.2,1) forwards;}
+  .active .d1{animation-delay:.08s;}.active .d2{animation-delay:.16s;}.active .d3{animation-delay:.24s;}
+  .active .d4{animation-delay:.32s;}.active .d5{animation-delay:.4s;}.active .d6{animation-delay:.48s;}
+  @keyframes rise{to{opacity:1;transform:none;}}
+
+  /* cover */
+  .cover-meta{margin-top:42px;color:var(--mut);font-size:1rem;line-height:1.9;}
+  .cover-tags{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px;}
+  .pill{border:1px solid var(--line);background:rgba(255,255,255,.04);padding:8px 16px;border-radius:40px;font-size:.85rem;color:#cdd9ec;}
+
+  /* stat row */
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:46px;}
+  .stat{border-left:2px solid var(--teal);padding:6px 0 6px 18px;}
+  .stat .n{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(1.8rem,3.4vw,2.8rem);line-height:1;letter-spacing:-.02em;}
+  .stat .n.g{color:var(--green);}
+  .stat .l{font-size:.84rem;color:var(--mut);margin-top:6px;}
+
+  /* timeline */
+  .flow{display:flex;gap:0;margin-top:40px;align-items:stretch;}
+  .fstep{flex:1;position:relative;padding:22px 18px;}
+  .fstep:not(:last-child)::after{content:"";position:absolute;right:0;top:34px;width:1px;height:calc(100% - 34px);background:var(--line);}
+  .fstep .fn{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.5rem;color:var(--teal);}
+  .fstep .ft{font-weight:700;margin-top:8px;font-size:1.05rem;}
+  .fstep .fd{font-size:.82rem;color:var(--mut);margin-top:2px;}
+
+  /* two column */
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:38px;margin-top:18px;align-items:center;}
+  .cols.wide{grid-template-columns:1.1fr .9fr;}
+
+  /* cards */
+  .cards{display:grid;gap:14px;}
+  .cards.c3{grid-template-columns:repeat(3,1fr);}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.02));border:1px solid var(--line);border-radius:16px;padding:22px;}
+  .card .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;margin-bottom:14px;}
+  .card h3{font-family:"Bricolage Grotesque";font-weight:600;font-size:1.15rem;margin-bottom:6px;}
+  .card p{font-size:.95rem;max-width:none;}
+
+  /* irritants list */
+  .irr{display:flex;flex-direction:column;gap:11px;margin-top:8px;}
+  .irow{display:flex;align-items:center;gap:16px;border:1px solid var(--line);border-radius:13px;padding:15px 20px;background:rgba(255,255,255,.025);}
+  .irow .idx{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.3rem;width:30px;color:var(--mut);}
+  .irow .itxt{font-size:1.1rem;font-weight:500;flex:1;}
+  .badge{font-size:.72rem;font-weight:700;letter-spacing:.04em;padding:5px 12px;border-radius:30px;text-transform:uppercase;}
+  .bc{background:rgba(255,107,94,.16);color:var(--coral);border:1px solid rgba(255,107,94,.4);}
+  .be{background:rgba(245,185,69,.14);color:var(--amber);border:1px solid rgba(245,185,69,.36);}
+
+  /* matrix 2x2 */
+  .matrix{position:relative;aspect-ratio:1.25/1;border-left:2px solid var(--line);border-bottom:2px solid var(--line);margin:10px 30px 30px 0;}
+  .matrix .axis-y{position:absolute;left:-14px;top:-8px;transform:rotate(-90deg) translateX(-100%);transform-origin:left top;font-size:.78rem;color:var(--mut);letter-spacing:.1em;text-transform:uppercase;}
+  .matrix .axis-x{position:absolute;right:0;bottom:-26px;font-size:.78rem;color:var(--mut);letter-spacing:.1em;text-transform:uppercase;}
+  .matrix .quad{position:absolute;font-size:.7rem;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.1em;}
+  .bub{position:absolute;transform:translate(-50%,50%);display:flex;align-items:center;gap:8px;}
+  .bub .dot{width:16px;height:16px;border-radius:50%;box-shadow:0 0 0 6px rgba(22,194,194,.12);}
+  .bub .lab{font-size:.8rem;font-weight:600;white-space:nowrap;background:rgba(8,18,33,.8);padding:3px 9px;border-radius:20px;border:1px solid var(--line);}
+
+  /* roadmap */
+  .road{display:flex;gap:10px;margin-top:34px;}
+  .rcol{flex:1;border-radius:14px;padding:20px 16px;color:#06121f;position:relative;overflow:hidden;}
+  .rcol .rp{font-weight:700;font-size:.82rem;opacity:.7;}
+  .rcol .rt{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.1rem;margin-top:6px;line-height:1.1;}
+  .rcol .rd{font-size:.78rem;margin-top:8px;opacity:.85;}
+
+  /* roi */
+  .roi-wrap{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;}
+  .roi-big{font-family:"Bricolage Grotesque";font-weight:800;font-size:clamp(5rem,13vw,11rem);line-height:.82;letter-spacing:-.04em;background:linear-gradient(120deg,var(--green),var(--teal));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .bars{display:flex;align-items:flex-end;gap:26px;height:300px;padding-top:10px;}
+  .bar{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:10px;height:100%;}
+  .bar .col{width:100%;border-radius:10px 10px 0 0;position:relative;transition:height 1s cubic-bezier(.2,.7,.2,1);}
+  .bar .v{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.5rem;}
+  .bar .k{font-size:.8rem;color:var(--mut);text-transform:uppercase;letter-spacing:.08em;}
+
+  /* big quote */
+  .quote{font-family:"Bricolage Grotesque";font-weight:600;font-size:clamp(1.8rem,3.6vw,3rem);line-height:1.12;letter-spacing:-.015em;max-width:20ch;}
+  .quote .grad{font-weight:800;}
+
+  /* levers */
+  .lev{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:24px;}
+  .lc{border:1px solid var(--line);border-radius:14px;padding:18px;background:rgba(255,255,255,.025);}
+  .lc h4{font-family:"Bricolage Grotesque";font-weight:600;font-size:1.05rem;color:var(--teal);}
+  .lc p{font-size:.86rem;margin-top:4px;}
+
+  /* chrome */
+  .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--azure),var(--violet));z-index:50;transition:width .4s ease;}
+  .counter{position:fixed;bottom:26px;right:34px;font-size:.8rem;color:var(--mut);font-variant-numeric:tabular-nums;letter-spacing:.05em;z-index:50;}
+  .brand{position:fixed;bottom:26px;left:34px;font-size:.78rem;color:var(--mut);letter-spacing:.08em;z-index:50;}
+  .dots{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;gap:7px;z-index:50;}
+  .dots i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.2);cursor:pointer;transition:.2s;}
+  .dots i.on{background:var(--teal);width:22px;border-radius:6px;}
+  .hint{position:fixed;bottom:50px;right:34px;font-size:.72rem;color:rgba(255,255,255,.25);z-index:50;}
+
+  @media(max-width:760px){
+    .stats{grid-template-columns:repeat(2,1fr);}.cols,.roi-wrap{grid-template-columns:1fr;gap:24px;}
+    .cards.c3,.lev{grid-template-columns:1fr;}.flow{flex-wrap:wrap;}.fstep{flex:1 1 33%;}.road{flex-wrap:wrap;}.rcol{flex:1 1 45%;}
+  }
+</style>
+</head>
+<body>
+<div class="progress" id="progress"></div>
+<div class="deck" id="deck">
+
+  <!-- 1 COVER -->
+  <section class="slide" data-bg>
+    <div class="kicker anim d1">Mission de conseil · Master 1 ESD</div>
+    <h1 class="anim d2">Auditer l'IA<br>de <span class="grad">BlaBlaCar</span></h1>
+    <p class="lead anim d3" style="margin-top:24px;">Comment l'intelligence artificielle peut défendre l'actif le plus précieux d'une marketplace entre particuliers : la confiance.</p>
+    <div class="cover-tags anim d4">
+      <span class="pill">Machine Learning</span>
+      <span class="pill">Deep Learning</span>
+      <span class="pill">IA générative</span>
+      <span class="pill">IA agentique</span>
+    </div>
+    <div class="cover-meta anim d5">Cabinet de conseil IA · Audit, préconisations, roadmap et ROI · Juin 2026</div>
+  </section>
+
+  <!-- 2 ENTREPRISE -->
+  <section class="slide">
+    <div class="kicker anim d1">La société auditée</div>
+    <h2 class="anim d2">Une marketplace <span class="grad">asset-light</span>, rentable, déjà mature sur la donnée</h2>
+    <p class="anim d3">BlaBlaCar ne possède ni les véhicules ni les trajets. Elle monétise la mise en relation et la confiance. Son moteur tourne déjà au machine learning.</p>
+    <div class="stats">
+      <div class="stat anim d3"><div class="n">253 M€</div><div class="l">chiffre d'affaires 2023, plus 23 pour cent</div></div>
+      <div class="stat anim d4"><div class="n">29 M</div><div class="l">membres actifs par an, 21 pays</div></div>
+      <div class="stat anim d5"><div class="n">2022</div><div class="l">rentable depuis</div></div>
+      <div class="stat anim d6"><div class="n g">~2 Md$</div><div class="l">valorisation</div></div>
+    </div>
+  </section>
+
+  <!-- 3 METHODE -->
+  <section class="slide">
+    <div class="kicker anim d1">Notre démarche</div>
+    <h2 class="anim d2">Une méthode en six temps</h2>
+    <p class="anim d3 mut">De l'observation terrain jusqu'à la preuve économique.</p>
+    <div class="flow">
+      <div class="fstep anim d2"><div class="fn">1</div><div class="ft">Audit web</div><div class="fd">observer</div></div>
+      <div class="fstep anim d3"><div class="fn">2</div><div class="ft">Irritants</div><div class="fd">diagnostiquer</div></div>
+      <div class="fstep anim d4"><div class="fn">3</div><div class="ft">Familles IA</div><div class="fd">classifier</div></div>
+      <div class="fstep anim d4"><div class="fn">4</div><div class="ft">Priorisation</div><div class="fd">arbitrer</div></div>
+      <div class="fstep anim d5"><div class="fn">5</div><div class="ft">Roadmap</div><div class="fd">déployer</div></div>
+      <div class="fstep anim d6"><div class="fn">6</div><div class="ft">ROI</div><div class="fd">prouver</div></div>
+    </div>
+  </section>
+
+  <!-- 4 AUDIT -->
+  <section class="slide">
+    <div class="cols wide">
+      <div>
+        <div class="kicker anim d1">Audit web</div>
+        <h2 class="anim d2">Huit sources,<br>un seul <span class="grad">faisceau</span></h2>
+        <p class="anim d3">Une source unique exprime une opinion. Huit sources croisées construisent un diagnostic. Trois signaux indépendants convergent vers le même point.</p>
+      </div>
+      <div class="cards anim d4" style="gap:12px;">
+        <div class="card"><h3>Avis clients</h3><p class="mut">4,2 sur 5 pour le cœur, mais SAV et remboursements décrochent.</p></div>
+        <div class="card"><h3>Presse récente</h3><p class="mut">La fraude est médiatisée : un risque réputationnel.</p></div>
+        <div class="card"><h3>Offres d'emploi</h3><p class="mut">Ils recrutent déjà sur la GenAI support et la fraude temps réel.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 IRRITANTS -->
+  <section class="slide">
+    <div class="kicker anim d1">Diagnostic</div>
+    <h2 class="anim d2">Cinq irritants, <span class="grad">trois touchent la confiance</span></h2>
+    <div class="irr">
+      <div class="irow anim d2"><span class="idx">01</span><span class="itxt">SAV saturé, support jugé inexistant</span><span class="badge bc">confiance</span></div>
+      <div class="irow anim d3"><span class="idx">02</span><span class="itxt">Remboursements en avoir, source de litiges</span><span class="badge bc">confiance</span></div>
+      <div class="irow anim d4"><span class="idx">03</span><span class="itxt">Fraude et faux profils, arnaque médiatisée</span><span class="badge bc">confiance</span></div>
+      <div class="irow anim d5"><span class="idx">04</span><span class="itxt">Annulations conducteurs de dernière minute</span><span class="badge be">efficacité</span></div>
+      <div class="irow anim d6"><span class="idx">05</span><span class="itxt">Matching faible sur les trajets peu denses</span><span class="badge be">efficacité</span></div>
+    </div>
+  </section>
+
+  <!-- 6 CARTO -->
+  <section class="slide">
+    <div class="kicker anim d1">Cartographie des quatre familles</div>
+    <h2 class="anim d2">Solide sur le ML produit,<br><span class="grad">vierge sur la relation client</span></h2>
+    <div class="cards c3 anim d3" style="margin-top:18px;">
+      <div class="card"><div class="ic" style="background:rgba(22,194,194,.16);">📊</div><h3>Machine Learning</h3><p class="mut"><strong>Déjà :</strong> matching XGBoost, anti-fraude.<br><strong>À faire :</strong> fraude temps réel, score fiabilité.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(155,123,255,.16);">🧠</div><h3>Deep Learning</h3><p class="mut"><strong>Déjà :</strong> briques de modération.<br><strong>À faire :</strong> sentiment, modération images.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(245,185,69,.16);">✨</div><h3>IA générative</h3><p class="mut"><strong>Déjà :</strong> pistes au stade recrutement.<br><strong>À faire :</strong> assistant support, contenu.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(40,213,154,.16);">🤖</div><h3>IA agentique</h3><p class="mut"><strong>Déjà :</strong> rien d'identifié.<br><strong>À faire :</strong> agent litiges, re-matching.</p></div>
+    </div>
+  </section>
+
+  <!-- 7 IA INTERNE VS EXTERNE -->
+  <section class="slide">
+    <div class="kicker anim d1">Niveau de lecture · 1 sur 2</div>
+    <h2 class="anim d2">IA externe et <span class="grad">IA interne</span></h2>
+    <div class="cols anim d3" style="margin-top:8px;">
+      <div class="card"><div class="ic" style="background:rgba(61,155,255,.16);">🌍</div><h3>IA externe, orientée client</h3><p class="mut">Ce que voit l'utilisateur : matching, détection de fraude, assistant de support, agent de litiges. Elle agit sur l'expérience et la confiance.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(40,213,154,.16);">🏠</div><h3>IA interne, orientée équipes</h3><p class="mut">Au service des collaborateurs : copilots data, assistants métier, automatisation back-office. BlaBlaCar a déjà son <strong>Data Copilot</strong> sur BigQuery.</p></div>
+    </div>
+    <p class="anim d5" style="margin-top:22px;">Recommandation : ils ont commencé par l'interne avec le Data Copilot. Étendre cette logique aux agents support et aux analystes décuple la productivité sans exposer de risque client.</p>
+  </section>
+
+  <!-- 8 IA FACTORY -->
+  <section class="slide">
+    <div class="cols wide">
+      <div>
+        <div class="kicker anim d1">Niveau de lecture · 2 sur 2</div>
+        <h2 class="anim d2">De l'usage<br>à la <span class="grad">capacité</span></h2>
+        <p class="anim d3">Une <strong>IA Factory</strong> transforme des projets IA isolés en capacité industrielle répétable : équipe plateforme, MLOps, gouvernance et composants réutilisables. On sort un nouveau cas d'usage vite, et proprement.</p>
+        <p class="anim d4 mut" style="margin-top:14px;">BlaBlaCar en a déjà l'embryon : feature store, BigQuery, observabilité Monte Carlo. Il reste à le formaliser.</p>
+      </div>
+      <div class="cards anim d4" style="gap:12px;">
+        <div class="card"><h3>Plateforme</h3><p class="mut">Feature store, briques partagées, mise en production standardisée.</p></div>
+        <div class="card"><h3>MLOps et qualité</h3><p class="mut">Monitoring, supervision humaine, détection de dérive des modèles.</p></div>
+        <div class="card"><h3>Gouvernance</h3><p class="mut">Charte IA, conformité, réutilisabilité des cas d'usage.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 TOP 3 -->
+  <section class="slide">
+    <div class="kicker anim d1">Préconisations</div>
+    <h2 class="anim d2">Trois priorités hautes,<br>une seule <span class="grad">cible : la confiance</span></h2>
+    <div class="cards c3 anim d3" style="margin-top:14px;">
+      <div class="card"><div class="ic" style="background:rgba(245,185,69,.16);">①</div><h3>Assistant support génératif</h3><p class="mut">Absorbe les demandes répétitives, réduit le délai de réponse. IA générative.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(40,213,154,.16);">②</div><h3>Agent de résolution des litiges</h3><p class="mut">Qualifie, vérifie l'éligibilité, propose une issue, sous supervision. IA agentique.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(22,194,194,.16);">③</div><h3>Détection de fraude temps réel</h3><p class="mut">Bloque les faux comptes avant la mise en relation. Machine Learning.</p></div>
+    </div>
+  </section>
+
+  <!-- 10 MATRICE -->
+  <section class="slide">
+    <div class="cols wide">
+      <div>
+        <div class="kicker anim d1">Priorisation</div>
+        <h2 class="anim d2">Impact contre <span class="grad">faisabilité</span></h2>
+        <p class="anim d3">Arbitrage sur quatre critères : impact, faisabilité, risque, acceptabilité. Les trois solutions en haut à droite se lancent en premier.</p>
+        <div class="anim d4" style="margin-top:18px;display:flex;flex-direction:column;gap:8px;font-size:.9rem;">
+          <span><b style="color:var(--teal)">●</b> &nbsp;Assistant support &nbsp;<b style="color:var(--coral)">●</b> Agent litiges &nbsp;<b style="color:var(--azure)">●</b> Fraude</span>
+          <span><b style="color:var(--amber)">●</b> &nbsp;Score fiabilité &nbsp;<b style="color:var(--violet)">●</b> Modération</span>
+        </div>
+      </div>
+      <div class="matrix anim d4">
+        <span class="axis-y">Impact</span>
+        <span class="axis-x">Faisabilité</span>
+        <span class="quad" style="right:10px;top:8px;">À lancer</span>
+        <span class="quad" style="left:6px;bottom:8px;">À mûrir</span>
+        <div class="bub" style="left:100%;bottom:100%;"><span class="dot" style="background:var(--teal);"></span><span class="lab">Assistant</span></div>
+        <div class="bub" style="left:55%;bottom:100%;"><span class="dot" style="background:var(--coral);"></span><span class="lab">Litiges</span></div>
+        <div class="bub" style="left:78%;bottom:100%;"><span class="dot" style="background:var(--azure);"></span><span class="lab">Fraude</span></div>
+        <div class="bub" style="left:55%;bottom:75%;"><span class="dot" style="background:var(--amber);"></span><span class="lab">Fiabilité</span></div>
+        <div class="bub" style="left:52%;bottom:50%;"><span class="dot" style="background:var(--violet);"></span><span class="lab">Modération</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 ROADMAP -->
+  <section class="slide">
+    <div class="kicker anim d1">Déploiement</div>
+    <h2 class="anim d2">Du quick win au système durable, <span class="grad">en douze mois</span></h2>
+    <div class="road">
+      <div class="rcol anim d2" style="background:linear-gradient(160deg,#16c2c2,#0fa8b6);"><div class="rp">S1 à S2</div><div class="rt">Audit et cadrage</div><div class="rd">Base de référence, gouvernance</div></div>
+      <div class="rcol anim d3" style="background:linear-gradient(160deg,#3d9bff,#2d7fe0);"><div class="rp">S3 à S4</div><div class="rt">Quick win</div><div class="rd">Assistant FAQ, top demandes</div></div>
+      <div class="rcol anim d4" style="background:linear-gradient(160deg,#9b7bff,#7d5cf0);"><div class="rp">M2 à M3</div><div class="rt">POC métier</div><div class="rd">Agent litiges supervisé</div></div>
+      <div class="rcol anim d5" style="background:linear-gradient(160deg,#f5b945,#e8a52e);"><div class="rp">M4 à M6</div><div class="rt">Déploiement</div><div class="rd">Support et fraude en prod</div></div>
+      <div class="rcol anim d6" style="background:linear-gradient(160deg,#28d59a,#1bbd86);"><div class="rp">M6 à M12</div><div class="rt">Industrialisation</div><div class="rd">IA Factory, gouvernance</div></div>
+    </div>
+    <p class="anim d6 mut" style="margin-top:26px;">Chaque phase précise responsables, données, outils, KPI de succès et critère go ou no-go.</p>
+  </section>
+
+  <!-- 12 ROI -->
+  <section class="slide">
+    <div class="roi-wrap">
+      <div>
+        <div class="kicker anim d1">Retour sur investissement</div>
+        <div class="roi-big anim d2">+138%</div>
+        <p class="anim d3" style="margin-top:18px;">Scénario central sur le cas phare, support et litiges combinés. Rentable dès la première année, même au plus bas.</p>
+        <p class="anim d4 mut" style="margin-top:10px;font-size:.95rem;">ROI = (gains annuels moins coûts) divisé par coûts, multiplié par 100.</p>
+      </div>
+      <div class="bars anim d3">
+        <div class="bar"><span class="v" style="color:var(--mut)">+39%</span><div class="col" style="height:14%;background:linear-gradient(180deg,#3d6079,#2b4a60);"></div><span class="k">Prudent</span></div>
+        <div class="bar"><span class="v" style="color:var(--teal)">+138%</span><div class="col" style="height:48%;background:linear-gradient(180deg,#16c2c2,#0f8fa0);"></div><span class="k">Central</span></div>
+        <div class="bar"><span class="v" style="color:var(--green)">+286%</span><div class="col" style="height:100%;background:linear-gradient(180deg,#28d59a,#16b07e);"></div><span class="k">Haut</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 CHANGEMENT -->
+  <section class="slide">
+    <div class="kicker anim d1">Conduite du changement</div>
+    <h2 class="anim d2">L'IA, un <span class="grad">levier de capacité</span>, pas une menace</h2>
+    <div class="lev">
+      <div class="lc anim d2"><h4>Sponsoriser</h4><p>Une direction expérience client porteuse.</p></div>
+      <div class="lc anim d3"><h4>Acculturer</h4><p>Les fondamentaux des quatre familles.</p></div>
+      <div class="lc anim d3"><h4>Rassurer</h4><p>L'IA libère des tâches répétitives.</p></div>
+      <div class="lc anim d4"><h4>Former</h4><p>Les agents deviennent superviseurs de l'IA.</p></div>
+      <div class="lc anim d5"><h4>Piloter</h4><p>Des indicateurs d'adoption partagés.</p></div>
+      <div class="lc anim d6"><h4>Gouverner</h4><p>Charte IA, human in the loop obligatoire.</p></div>
+    </div>
+  </section>
+
+  <!-- 14 DECISION -->
+  <section class="slide" style="justify-content:center;">
+    <div class="kicker anim d1">La question finale</div>
+    <p class="quote anim d2">Pour une marketplace entre particuliers, l'IA appliquée à la confiance n'est pas un gadget de productivité.<br><span class="grad">C'est un avantage concurrentiel.</span></p>
+    <p class="anim d4" style="margin-top:26px;">Réduire la fraude, fluidifier les litiges et fiabiliser les conducteurs renforce l'actif que personne ne copie vite : la réputation.</p>
+  </section>
+
+  <!-- 15 MERCI -->
+  <section class="slide" style="justify-content:center;align-items:flex-start;">
+    <div class="kicker anim d1">Merci</div>
+    <h1 class="anim d2">Des <span class="grad">questions</span> ?</h1>
+    <div class="cover-meta anim d3">Audit IA d'entreprise · BlaBlaCar · Master 1 ESD<br>charle-com.github.io/audit-ia-blablacar</div>
+  </section>
+
+</div>
+
+<div class="dots" id="dots"></div>
+<div class="counter"><span id="cur">01</span> / <span id="tot">15</span></div>
+<div class="brand">BLABLACAR · AUDIT IA</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  const dotsWrap=document.getElementById('dots');
+  let i=0;
+  slides.forEach((s,n)=>{const d=document.createElement('i');d.onclick=()=>go(n);dotsWrap.appendChild(d);});
+  const dots=[...dotsWrap.children];
+  document.getElementById('tot').textContent=String(slides.length).padStart(2,'0');
+  function go(n){
+    slides[i].classList.remove('active');dots[i].classList.remove('on');
+    i=(n+slides.length)%slides.length;
+    slides[i].classList.add('active');dots[i].classList.add('on');
+    document.getElementById('cur').textContent=String(i+1).padStart(2,'0');
+    document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';
+  }
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key)){e.preventDefault();go(i+1);}
+    if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();go(i-1);}
+    if(e.key==='Home')go(0); if(e.key==='End')go(slides.length-1);
+    if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+  });
+  document.getElementById('deck').addEventListener('click',e=>{
+    const x=e.clientX/window.innerWidth; if(x>0.35) go(i+1); else go(i-1);
+  });
+  go(0);
+</script>
+</body>
+</html>
