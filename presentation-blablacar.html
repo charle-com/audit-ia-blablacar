@@ -86,6 +86,11 @@
   .card .ic{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;font-size:1.2rem;margin-bottom:14px;}
   .card h3{font-family:"Bricolage Grotesque";font-weight:600;font-size:1.15rem;margin-bottom:6px;}
   .card p{font-size:.95rem;max-width:none;}
+  .famchip{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:4px 11px;border-radius:30px;margin:2px 0 10px;}
+  .famchip.gen{color:var(--amber);background:rgba(245,185,69,.14);border:1px solid rgba(245,185,69,.4);}
+  .famchip.ag{color:var(--green);background:rgba(40,213,154,.14);border:1px solid rgba(40,213,154,.4);}
+  .famchip.ml{color:var(--teal);background:rgba(22,194,194,.14);border:1px solid rgba(22,194,194,.4);}
+  .famchip.dl{color:var(--violet);background:rgba(155,123,255,.14);border:1px solid rgba(155,123,255,.4);}
 
   /* irritants list */
   .irr{display:flex;flex-direction:column;gap:11px;margin-top:8px;}
@@ -305,9 +310,9 @@
     <div class="kicker anim d1">Préconisations</div>
     <h2 class="anim d2">Trois priorités hautes,<br>une seule <span class="grad">cible : la confiance</span></h2>
     <div class="cards c3 anim d3" style="margin-top:14px;">
-      <div class="card"><div class="ic" style="background:rgba(245,185,69,.16);">①</div><h3>Assistant support génératif</h3><p class="mut">Absorbe les demandes répétitives, réduit le délai de réponse. IA générative.</p></div>
-      <div class="card"><div class="ic" style="background:rgba(40,213,154,.16);">②</div><h3>Agent de résolution des litiges</h3><p class="mut">Qualifie, vérifie l'éligibilité, propose une issue, sous supervision. IA agentique.</p></div>
-      <div class="card"><div class="ic" style="background:rgba(22,194,194,.16);">③</div><h3>Détection de fraude temps réel</h3><p class="mut">Bloque les faux comptes avant la mise en relation. Machine Learning.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(245,185,69,.16);">①</div><h3>Assistant support génératif</h3><span class="famchip gen">IA générative</span><p class="mut">Absorbe les demandes répétitives, réduit le délai de réponse.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(40,213,154,.16);">②</div><h3>Agent de résolution des litiges</h3><span class="famchip ag">IA agentique</span><p class="mut">Qualifie, vérifie l'éligibilité, propose une issue, sous supervision.</p></div>
+      <div class="card"><div class="ic" style="background:rgba(22,194,194,.16);">③</div><h3>Détection de fraude temps réel</h3><span class="famchip ml">Machine Learning</span><p class="mut">Bloque les faux comptes avant la mise en relation.</p></div>
     </div>
   </section>
 
