@@ -1,0 +1,5 @@
+sources/
+.DS_Store
+*.bak*
+*.revoked
+.claude/

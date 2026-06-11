@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BlaBlaCar - Soutenance Audit IA</title>
+<style>
+  :root{
+    --bleu:#0a2540;--bleu2:#15375f;--bleu3:#1d4a7a;
+    --cyan:#19b6c9;--vert:#1ec98a;--or:#e0a32e;--violet:#8b5cf6;--rouge:#d6453d;
+    --bord:rgba(255,255,255,.16);
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html,body{height:100%;font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;background:#06182b;color:#fff;}
+  .deck{height:100vh;width:100vw;overflow:hidden;position:relative;}
+  .slide{
+    position:absolute;inset:0;
+    display:none;flex-direction:column;justify-content:center;
+    padding:6vh 8vw;
+    background:linear-gradient(135deg,#0a2540 0%,#15375f 70%,#1d4a7a 100%);
+  }
+  .slide.active{display:flex;animation:fade .35s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+  h1{font-size:3.4rem;line-height:1.1;margin-bottom:.3em;}
+  h2{font-size:2.2rem;color:#fff;margin-bottom:.6em;border-bottom:3px solid var(--cyan);padding-bottom:.2em;display:inline-block;}
+  h3{font-size:1.3rem;color:var(--cyan);margin-bottom:.4em;}
+  p,li{font-size:1.45rem;line-height:1.5;color:#dce6f2;}
+  ul{padding-left:1.2em;margin-top:.4em;}
+  li{margin:.45em 0;}
+  .sub{font-size:1.5rem;color:var(--cyan);font-weight:600;margin-bottom:1.4em;}
+  .meta{font-size:1.1rem;color:#9fb3c9;line-height:1.9;margin-top:2em;}
+  .chips{display:flex;flex-wrap:wrap;gap:14px;margin-top:.6em;}
+  .chip{background:rgba(255,255,255,.08);border:1px solid var(--bord);border-radius:10px;padding:14px 18px;font-size:1.15rem;flex:1 1 200px;}
+  .chip .n{font-size:2rem;font-weight:700;color:var(--cyan);display:block;}
+  .chip .l{font-size:.95rem;color:#9fb3c9;}
+  .steps{display:flex;gap:12px;margin-top:1em;flex-wrap:wrap;}
+  .st{flex:1;min-width:120px;background:rgba(255,255,255,.06);border-radius:10px;padding:16px;text-align:center;border-top:4px solid var(--cyan);}
+  .st .num{font-size:1.6rem;font-weight:700;color:var(--cyan);}
+  .st .t{font-weight:600;margin-top:.2em;}
+  .st .d{font-size:.9rem;color:#9fb3c9;}
+  .reco{display:flex;flex-direction:column;gap:16px;margin-top:.5em;}
+  .reco .r{background:rgba(255,255,255,.07);border-left:5px solid var(--or);border-radius:8px;padding:18px 22px;}
+  .reco .r .h{font-size:1.5rem;font-weight:700;color:#fff;}
+  .reco .r .s{font-size:1.1rem;color:#9fb3c9;}
+  .big{font-size:5rem;font-weight:800;color:var(--vert);line-height:1;}
+  table{width:100%;border-collapse:collapse;margin-top:.6em;font-size:1.1rem;}
+  th{background:rgba(255,255,255,.12);padding:10px 12px;text-align:left;}
+  td{border:1px solid var(--bord);padding:10px 12px;color:#dce6f2;}
+  .tag{display:inline-block;font-size:.85rem;font-weight:700;padding:3px 12px;border-radius:20px;color:#fff;}
+  .haute{background:var(--rouge);}.moy{background:var(--or);}
+  .roadmap{display:flex;gap:8px;margin-top:1em;}
+  .rb{flex:1;border-radius:8px;padding:14px 12px;color:#fff;font-size:.95rem;}
+  .rb .t{font-weight:700;font-size:1.05rem;}
+  .footer{position:absolute;bottom:3vh;left:8vw;right:8vw;display:flex;justify-content:space-between;font-size:.85rem;color:#6f87a0;}
+  .nav{position:absolute;bottom:3vh;right:8vw;font-size:.85rem;color:#6f87a0;}
+  .callout{background:rgba(25,182,201,.12);border:1px solid var(--cyan);border-radius:10px;padding:18px 22px;margin-top:1em;font-size:1.4rem;font-weight:600;color:#fff;}
+  @media print{.slide{display:flex !important;position:relative;height:100vh;page-break-after:always;}.nav,.footer{display:none;}}
+</style>
+</head>
+<body>
+<div class="deck" id="deck">
+
+  <section class="slide active">
+    <h1>Audit IA d'entreprise<br>BlaBlaCar</h1>
+    <p class="sub">Rapport de préconisations stratégiques en intelligence artificielle</p>
+    <div class="meta">
+      Cabinet de conseil IA, mission pour BlaBlaCar<br>
+      Master 1 ESD, cas pratique Audit IA et Machine Learning, juin 2026
+    </div>
+  </section>
+
+  <section class="slide">
+    <h2>La mission</h2>
+    <p>Auditer BlaBlaCar depuis ses traces web publiques, identifier ses irritants business mesurables, et proposer des intégrations d'IA priorisées, chiffrées et accompagnées d'un plan d'adoption.</p>
+    <div class="chips">
+      <div class="chip"><span class="n">253 M€</span><span class="l">CA 2023, plus 23 pour cent</span></div>
+      <div class="chip"><span class="n">29 M</span><span class="l">membres actifs par an, 21 pays</span></div>
+      <div class="chip"><span class="n">2022</span><span class="l">rentable depuis</span></div>
+      <div class="chip"><span class="n">~2 Md$</span><span class="l">valorisation</span></div>
+    </div>
+    <p style="margin-top:1em;">Une marketplace asset-light qui vit de deux choses : le volume de mises en relation et la confiance qui les sécurise.</p>
+  </section>
+
+  <section class="slide">
+    <h2>Notre méthode en six temps</h2>
+    <div class="steps">
+      <div class="st"><div class="num">1</div><div class="t">Audit web</div><div class="d">observer</div></div>
+      <div class="st"><div class="num">2</div><div class="t">Irritants</div><div class="d">diagnostiquer</div></div>
+      <div class="st"><div class="num">3</div><div class="t">Familles IA</div><div class="d">classifier</div></div>
+      <div class="st"><div class="num">4</div><div class="t">Priorisation</div><div class="d">arbitrer</div></div>
+      <div class="st"><div class="num">5</div><div class="t">Roadmap</div><div class="d">déployer</div></div>
+      <div class="st"><div class="num">6</div><div class="t">ROI</div><div class="d">prouver</div></div>
+    </div>
+    <div class="callout">De l'observation terrain jusqu'à la preuve économique.</div>
+  </section>
+
+  <section class="slide">
+    <h2>Audit : huit sources, un constat</h2>
+    <p>Huit sources publiques croisées : site, tunnel, pages trajets, blog et SEO, LinkedIn, avis clients, presse, offres d'emploi.</p>
+    <div class="callout">Trois signaux indépendants convergent : avis clients, presse et recrutements pointent tous le support et la confiance. Ce n'est pas une intuition, c'est un faisceau.</div>
+    <p style="margin-top:.8em;">Le cœur est bien noté (4,2 sur 5 sur Trustpilot). L'insatisfaction se loge dans le service et la sécurité.</p>
+  </section>
+
+  <section class="slide">
+    <h2>Diagnostic : cinq irritants</h2>
+    <ul>
+      <li><strong>SAV saturé</strong>, support jugé inexistant <span class="tag haute">confiance</span></li>
+      <li><strong>Remboursements en avoir</strong>, source de litiges <span class="tag haute">confiance</span></li>
+      <li><strong>Fraude et faux profils</strong>, arnaque médiatisée <span class="tag haute">confiance</span></li>
+      <li><strong>Annulations conducteurs</strong> de dernière minute <span class="tag moy">efficacité</span></li>
+      <li><strong>Matching faible</strong> sur les trajets peu denses <span class="tag moy">efficacité</span></li>
+    </ul>
+    <div class="callout">Trois irritants sur cinq touchent la confiance, l'actif vital d'une marketplace entre particuliers.</div>
+  </section>
+
+  <section class="slide">
+    <h2>Cartographie : ce qui existe, ce qui manque</h2>
+    <table>
+      <tr><th>Famille</th><th>Déjà en place</th><th>À mobiliser</th></tr>
+      <tr><td>Machine Learning</td><td>Matching, anti-fraude</td><td>Score fiabilité, fraude temps réel</td></tr>
+      <tr><td>Deep Learning</td><td>Briques de modération</td><td>Sentiment, modération images</td></tr>
+      <tr><td>IA générative</td><td>Pistes au stade recrutement</td><td>Assistant support, contenu</td></tr>
+      <tr><td>IA agentique</td><td>Rien d'identifié</td><td>Agent litiges, re-matching</td></tr>
+    </table>
+    <div class="callout">Solide sur le ML du cœur produit, quasi vierge sur le génératif et l'agentique côté relation client. La valeur est là.</div>
+  </section>
+
+  <section class="slide">
+    <h2>Top trois recommandations</h2>
+    <div class="reco">
+      <div class="r"><div class="h">1. Assistant de support génératif</div><div class="s">Absorbe les demandes répétitives, réduit le délai de première réponse. IA générative.</div></div>
+      <div class="r"><div class="h">2. Agent de résolution des litiges</div><div class="s">Qualifie, vérifie l'éligibilité, propose une issue, sous supervision. IA agentique.</div></div>
+      <div class="r"><div class="h">3. Détection de fraude temps réel</div><div class="s">Bloque les faux comptes avant la mise en relation. Machine Learning.</div></div>
+    </div>
+  </section>
+
+  <section class="slide">
+    <h2>Priorisation : impact, faisabilité, risque, acceptabilité</h2>
+    <table>
+      <tr><th>Solution</th><th>Famille</th><th>Impact</th><th>Faisabilité</th><th>Priorité</th></tr>
+      <tr><td>Assistant support</td><td>GenA</td><td>5</td><td>5</td><td><span class="tag haute">Haute</span></td></tr>
+      <tr><td>Agent litiges</td><td>Agentique</td><td>5</td><td>3</td><td><span class="tag haute">Haute</span></td></tr>
+      <tr><td>Fraude temps réel</td><td>ML</td><td>5</td><td>4</td><td><span class="tag haute">Haute</span></td></tr>
+      <tr><td>Score fiabilité</td><td>ML, Agentique</td><td>4</td><td>3</td><td><span class="tag moy">Moyenne</span></td></tr>
+      <tr><td>Modération contenus</td><td>DL</td><td>3</td><td>3</td><td><span class="tag moy">Moyenne</span></td></tr>
+    </table>
+    <p style="margin-top:.6em;">Les trois priorités hautes agissent toutes sur la confiance. On les lance ensemble.</p>
+  </section>
+
+  <section class="slide">
+    <h2>Feuille de route, douze mois</h2>
+    <div class="roadmap">
+      <div class="rb" style="background:#19b6c9;"><div class="t">S1 à S2</div>Audit et cadrage</div>
+      <div class="rb" style="background:#e0a32e;"><div class="t">S3 à S4</div>Quick win assistant</div>
+      <div class="rb" style="background:#8b5cf6;"><div class="t">M2 à M3</div>POC agent litiges</div>
+      <div class="rb" style="background:#1ec98a;"><div class="t">M4 à M6</div>Déploiement</div>
+      <div class="rb" style="background:#2f6fed;"><div class="t">M6 à M12</div>Industrialisation</div>
+    </div>
+    <div class="callout">Chaque phase a ses responsables, ses données, ses KPI et son critère go ou no-go.</div>
+  </section>
+
+  <section class="slide" style="text-align:center;align-items:center;">
+    <h2 style="border:none;">Retour sur investissement, douze mois</h2>
+    <div class="big">+138 %</div>
+    <p style="font-size:1.3rem;margin-top:.4em;">scénario central, sur le cas phare support et litiges</p>
+    <p style="margin-top:1em;">Fourchette de 39 pour cent (prudent) à 286 pour cent (haut). Rentable dès la première année, même au plus bas.</p>
+    <div class="callout">Une décision économique solide, pas un pari technologique.</div>
+  </section>
+
+  <section class="slide">
+    <h2>Conduite du changement</h2>
+    <ul>
+      <li><strong>Sponsoriser</strong> : direction de l'expérience client porteuse</li>
+      <li><strong>Acculturer</strong> et <strong>rassurer</strong> : l'IA libère les agents des tâches répétitives</li>
+      <li><strong>Former</strong> : les agents deviennent superviseurs de l'IA, un rôle valorisé</li>
+      <li><strong>Piloter</strong> et <strong>gouverner</strong> : charte IA, supervision sur les décisions financières</li>
+    </ul>
+    <div class="callout">Human in the loop : une condition de mise en production, pas une option.</div>
+  </section>
+
+  <section class="slide" style="text-align:center;align-items:center;">
+    <h2 style="border:none;">La décision finale</h2>
+    <p style="font-size:1.6rem;">Productivité à court terme, expérience client à moyen terme, mais surtout :</p>
+    <div class="callout" style="font-size:1.8rem;">Pour une marketplace entre particuliers, l'IA appliquée à la confiance et à la sécurité est un avantage concurrentiel.</div>
+    <p style="margin-top:1em;font-size:1.3rem;">Lancer ensemble les trois chantiers prioritaires, en commençant par le quick win, sous supervision humaine. Merci.</p>
+  </section>
+
+  <div class="nav"><span id="counter">1 / 13</span> &nbsp; flèches pour naviguer</div>
+</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];
+  let i=0;
+  function show(n){slides[i].classList.remove('active');i=(n+slides.length)%slides.length;slides[i].classList.add('active');document.getElementById('counter').textContent=(i+1)+' / '+slides.length;}
+  document.addEventListener('keydown',e=>{
+    if(['ArrowRight','ArrowDown',' ','PageDown'].includes(e.key))show(i+1);
+    if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key))show(i-1);
+    if(e.key==='Home')show(0);
+    if(e.key==='End')show(slides.length-1);
+  });
+  document.getElementById('deck').addEventListener('click',()=>show(i+1));
+</script>
+</body>
+</html>

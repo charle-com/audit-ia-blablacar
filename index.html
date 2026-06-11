@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audit IA d'entreprise : BlaBlaCar | Mission de conseil</title>
+<meta name="description" content="Audit IA de BlaBlaCar : diagnostic des irritants business, préconisations par famille d'IA, roadmap 12 mois et ROI chiffré. Cas pratique Master 1 ESD.">
+<style>
+  :root{
+    --bleu:#0a2540;--bleu2:#15375f;--bleu3:#1d4a7a;
+    --cyan:#19b6c9;--vert:#1ec98a;--or:#e0a32e;--violet:#8b5cf6;--rouge:#d6453d;
+    --texte:#1d2733;--gris:#5b6776;--bord:#d7dee8;--clair:#f4f7fb;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{font-family:"Segoe UI",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;color:var(--texte);line-height:1.6;background:#fff;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 24px;}
+  a{color:var(--cyan);text-decoration:none;}
+
+  header{
+    background:radial-gradient(1200px 500px at 80% -10%,rgba(25,182,201,.25),transparent),linear-gradient(135deg,#06182b 0%,#0a2540 50%,#1d4a7a 120%);
+    color:#fff;padding:84px 0 72px;position:relative;overflow:hidden;
+  }
+  .eyebrow{display:inline-block;font-size:.82rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#7fd4e0;border:1px solid rgba(127,212,224,.4);padding:6px 14px;border-radius:30px;margin-bottom:24px;}
+  header h1{font-size:3.4rem;line-height:1.08;margin-bottom:.3em;letter-spacing:-.02em;}
+  header .lead{font-size:1.35rem;color:#cdddec;max-width:680px;margin-bottom:32px;}
+  .cta{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:1.02rem;padding:14px 26px;border-radius:10px;transition:transform .15s,box-shadow .15s;}
+  .btn:hover{transform:translateY(-2px);}
+  .btn.primary{background:var(--cyan);color:#06182b;box-shadow:0 8px 24px rgba(25,182,201,.35);}
+  .btn.ghost{background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.25);}
+  .btn.gold{background:var(--or);color:#1d2733;box-shadow:0 8px 24px rgba(224,163,46,.3);}
+
+  .stats{display:flex;flex-wrap:wrap;gap:18px;margin-top:54px;}
+  .stat{flex:1 1 160px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px 22px;}
+  .stat .n{font-size:2.1rem;font-weight:800;color:#fff;display:block;}
+  .stat .l{font-size:.9rem;color:#9fb3c9;}
+  .stat .n.green{color:var(--vert);}
+
+  section{padding:72px 0;}
+  section.alt{background:var(--clair);}
+  h2{font-size:2rem;color:var(--bleu);margin-bottom:.5em;letter-spacing:-.01em;}
+  .sub{color:var(--gris);font-size:1.1rem;max-width:680px;margin-bottom:36px;}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;}
+  .card{background:#fff;border:1px solid var(--bord);border-radius:14px;padding:26px;box-shadow:0 2px 10px rgba(10,37,64,.04);}
+  .card h3{font-size:1.15rem;color:var(--bleu);margin-bottom:.4em;display:flex;align-items:center;gap:10px;}
+  .card p{color:var(--gris);font-size:.98rem;}
+  .dot{width:12px;height:12px;border-radius:50%;display:inline-block;flex-shrink:0;}
+  .d-cyan{background:var(--cyan);}.d-violet{background:var(--violet);}.d-gold{background:var(--or);}.d-green{background:var(--vert);}.d-red{background:var(--rouge);}
+
+  .steps{display:flex;gap:12px;flex-wrap:wrap;counter-reset:s;}
+  .step{flex:1 1 140px;background:#fff;border:1px solid var(--bord);border-radius:12px;padding:20px;border-top:4px solid var(--cyan);}
+  .step .num{font-size:1.4rem;font-weight:800;color:var(--cyan);}
+  .step .t{font-weight:700;margin:.2em 0;}
+  .step .d{font-size:.85rem;color:var(--gris);}
+
+  .irritants{list-style:none;display:flex;flex-direction:column;gap:12px;}
+  .irritants li{display:flex;align-items:center;gap:14px;background:#fff;border:1px solid var(--bord);border-radius:10px;padding:16px 20px;}
+  .irritants .badge{font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:20px;color:#fff;margin-left:auto;}
+  .b-conf{background:var(--rouge);}.b-eff{background:var(--or);}
+
+  .roi{display:flex;align-items:center;gap:40px;flex-wrap:wrap;background:linear-gradient(135deg,#0a2540,#1d4a7a);color:#fff;border-radius:18px;padding:44px;}
+  .roi .big{font-size:4.6rem;font-weight:800;color:var(--vert);line-height:1;}
+  .roi .txt{flex:1;min-width:260px;}
+  .roi .txt p{color:#cdddec;}
+
+  .access{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+  .access a{display:block;background:#fff;border:1px solid var(--bord);border-radius:14px;padding:26px;transition:transform .15s,box-shadow .15s;color:var(--texte);}
+  .access a:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(10,37,64,.1);}
+  .access .ico{font-size:1.8rem;}
+  .access h3{color:var(--bleu);margin:.4em 0 .2em;}
+  .access p{color:var(--gris);font-size:.92rem;}
+
+  footer{background:#06182b;color:#9fb3c9;padding:40px 0;font-size:.9rem;}
+  footer a{color:#7fd4e0;}
+
+  @media(max-width:640px){header h1{font-size:2.3rem;}.roi .big{font-size:3.2rem;}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="eyebrow">Mission de conseil en intelligence artificielle</span>
+    <h1>Audit IA d'entreprise :<br>BlaBlaCar</h1>
+    <p class="lead">Comment l'intelligence artificielle peut défendre l'actif le plus précieux d'une marketplace entre particuliers : la confiance. Diagnostic, préconisations priorisées, feuille de route et retour sur investissement chiffré.</p>
+    <div class="cta">
+      <a class="btn primary" href="rapport-blablacar.pdf">Lire le rapport (PDF)</a>
+      <a class="btn ghost" href="rapport-blablacar.html">Version web</a>
+      <a class="btn gold" href="slides-oral.html">Voir la soutenance</a>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="n">29 M</span><span class="l">membres actifs par an, 21 pays</span></div>
+      <div class="stat"><span class="n">16</span><span class="l">sources publiques croisées</span></div>
+      <div class="stat"><span class="n">5</span><span class="l">irritants business diagnostiqués</span></div>
+      <div class="stat"><span class="n green">+138 %</span><span class="l">ROI estimé, scénario central</span></div>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <h2>La thèse</h2>
+    <p class="sub">BlaBlaCar est déjà mature sur le machine learning de son cœur de produit. La valeur fuit ailleurs : dans la relation client et la sécurité, là où se concentre l'insatisfaction et où l'IA générative et agentique sont encore absentes.</p>
+    <div class="grid">
+      <div class="card"><h3><span class="dot d-cyan"></span>Le constat</h3><p>L'expérience de mise en relation est bien notée (4,2 sur 5 sur Trustpilot), mais le service après-vente, les remboursements et la fraude concentrent les pires notes.</p></div>
+      <div class="card"><h3><span class="dot d-violet"></span>Le faisceau</h3><p>Trois signaux indépendants convergent : avis clients, presse et offres d'emploi pointent tous le support et la confiance. Ce n'est pas une intuition.</p></div>
+      <div class="card"><h3><span class="dot d-green"></span>La conviction</h3><p>Pour une marketplace entre particuliers, l'IA appliquée à la confiance n'est pas un gadget de productivité, c'est un avantage concurrentiel défendable.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>La méthode en six temps</h2>
+    <p class="sub">De l'observation terrain jusqu'à la preuve économique.</p>
+    <div class="steps">
+      <div class="step"><div class="num">1</div><div class="t">Audit web</div><div class="d">observer</div></div>
+      <div class="step"><div class="num">2</div><div class="t">Irritants</div><div class="d">diagnostiquer</div></div>
+      <div class="step"><div class="num">3</div><div class="t">Familles IA</div><div class="d">classifier</div></div>
+      <div class="step"><div class="num">4</div><div class="t">Priorisation</div><div class="d">arbitrer</div></div>
+      <div class="step"><div class="num">5</div><div class="t">Roadmap</div><div class="d">déployer</div></div>
+      <div class="step"><div class="num">6</div><div class="t">ROI</div><div class="d">prouver</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Les cinq irritants diagnostiqués</h2>
+    <p class="sub">Chacun relié à une source web, une preuve observée, une hypothèse de donnée et un indicateur business.</p>
+    <ul class="irritants">
+      <li><span class="dot d-red"></span><strong>SAV saturé</strong>, support jugé inexistant<span class="badge b-conf">confiance</span></li>
+      <li><span class="dot d-red"></span><strong>Remboursements en avoir</strong>, source de litiges<span class="badge b-conf">confiance</span></li>
+      <li><span class="dot d-red"></span><strong>Fraude et faux profils</strong>, arnaque médiatisée<span class="badge b-conf">confiance</span></li>
+      <li><span class="dot d-gold"></span><strong>Annulations conducteurs</strong> de dernière minute<span class="badge b-eff">efficacité</span></li>
+      <li><span class="dot d-gold"></span><strong>Matching faible</strong> sur les trajets peu denses<span class="badge b-eff">efficacité</span></li>
+    </ul>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Les trois priorités hautes</h2>
+    <p class="sub">Trois chantiers qui agissent tous sur la confiance, à lancer ensemble.</p>
+    <div class="grid">
+      <div class="card"><h3><span class="dot d-gold"></span>Assistant de support génératif</h3><p>Absorbe les demandes répétitives, réduit le délai de première réponse. Famille IA générative.</p></div>
+      <div class="card"><h3><span class="dot d-green"></span>Agent de résolution des litiges</h3><p>Qualifie, vérifie l'éligibilité et propose une issue, sous supervision humaine. Famille IA agentique.</p></div>
+      <div class="card"><h3><span class="dot d-cyan"></span>Détection de fraude temps réel</h3><p>Bloque les faux comptes avant la mise en relation. Famille Machine Learning.</p></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="roi">
+      <div class="big">+138 %</div>
+      <div class="txt">
+        <h2 style="color:#fff;">Un retour sur investissement prouvé</h2>
+        <p>Sur le cas phare combinant l'assistant de support et l'agent de litiges, le ROI estimé sur douze mois va de 39 pour cent dans le scénario prudent à 286 pour cent dans le scénario haut. Rentable dès la première année, même au plus bas. Une décision économique solide, pas un pari technologique.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Accéder aux livrables</h2>
+    <p class="sub">Le rapport complet, la soutenance et les sources de l'audit.</p>
+    <div class="access">
+      <a href="rapport-blablacar.pdf"><div class="ico">📄</div><h3>Rapport complet</h3><p>Le rapport de conseil mis en page, en PDF.</p></a>
+      <a href="rapport-blablacar.html"><div class="ico">🌐</div><h3>Version web</h3><p>Le même rapport, en page web navigable.</p></a>
+      <a href="slides-oral.html"><div class="ico">🎤</div><h3>Soutenance</h3><p>Le support de présentation, treize slides.</p></a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    Audit IA d'entreprise : BlaBlaCar. Cas pratique Master 1 ESD, Audit IA et Machine Learning, juin 2026.<br>
+    Analyse réalisée à partir de seize sources publiques croisées. Document à vocation pédagogique, sans lien officiel avec BlaBlaCar.
+  </div>
+</footer>
+
+</body>
+</html>
