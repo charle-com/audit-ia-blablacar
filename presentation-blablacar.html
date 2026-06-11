@@ -155,6 +155,18 @@
   .solban .sb-k{font-size:.8rem;color:var(--mut);}
   @media(max-width:760px){.chain{flex-direction:column;}.chain .arr{transform:rotate(90deg);}.solban{flex-direction:column;text-align:center;}.solban .sb-r{text-align:center;}}
 
+  /* roi : ledger cout vers gains */
+  .ledger{display:flex;align-items:stretch;gap:16px;margin-top:34px;}
+  .ledger .led{flex:1;border:1px solid var(--line);border-radius:14px;padding:16px 20px;background:rgba(255,255,255,.03);}
+  .ledger .led.cost{border-top:3px solid var(--coral);}
+  .ledger .led.gain{border-top:3px solid var(--teal);}
+  .ledger .led.roi{border-top:3px solid var(--green);}
+  .ledger .lt{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);}
+  .ledger .lv{font-family:"Bricolage Grotesque";font-weight:800;font-size:1.9rem;line-height:1;margin-top:6px;letter-spacing:-.02em;}
+  .ledger .ld{font-size:.76rem;color:var(--mut);margin-top:8px;line-height:1.4;}
+  .ledger .op{align-self:center;font-size:1.5rem;color:var(--mut);flex:0 0 auto;}
+  @media(max-width:760px){.ledger{flex-direction:column;}.ledger .op{transform:rotate(90deg);align-self:center;}}
+
   /* chrome */
   .progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--teal),var(--azure),var(--violet));z-index:50;transition:width .4s ease;}
   .counter{position:fixed;bottom:26px;right:34px;font-size:.8rem;color:var(--mut);font-variant-numeric:tabular-nums;letter-spacing:.05em;z-index:50;}
@@ -370,6 +382,13 @@
         <div class="bar"><span class="v" style="color:var(--teal)">+138%</span><div class="col" style="height:48%;background:linear-gradient(180deg,#16c2c2,#0f8fa0);"></div><span class="k">Central</span></div>
         <div class="bar"><span class="v" style="color:var(--green)">+286%</span><div class="col" style="height:100%;background:linear-gradient(180deg,#28d59a,#16b07e);"></div><span class="k">Haut</span></div>
       </div>
+    </div>
+    <div class="ledger anim d5">
+      <div class="led cost"><div class="lt">Coût projet estimé · an 1</div><div class="lv">~580 k€</div><div class="ld">Plateforme et LLM 170k · Intégration 220k · Supervision 140k · Formation 50k</div></div>
+      <span class="op">→</span>
+      <div class="led gain"><div class="lt">Gains attendus · an 1</div><div class="lv">~1,38 M€</div><div class="ld">Support, litiges, avoirs contestés, rétention</div></div>
+      <span class="op">=</span>
+      <div class="led roi"><div class="lt">Retour net</div><div class="lv" style="color:var(--green);">+138%</div><div class="ld">chaque euro investi en rapporte 2,4</div></div>
     </div>
   </section>
 
